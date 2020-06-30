@@ -2,7 +2,19 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: gcs-create-bucket
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tags: cloud
+    displayName: "gcs create bucket"
 spec:
+  description: >-
+    A Task that creates a new GCS bucket.
+
+    These Tasks are for copying to and from GCS buckets from Pipelines.
+    These Tasks do a similar job to the GCS PipelineResource and are intended as its replacement.
+
   workspaces:
   - name: credentials
     description: A secret with a service account key to use as GOOGLE_APPLICATION_CREDENTIALS.
