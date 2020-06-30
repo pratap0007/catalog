@@ -2,7 +2,21 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: gcs-download
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tags: cloud
+    displayName: "gcs download"
 spec:
+  description: >-
+    A Task that fetches files or directories from a GCS bucket and
+    puts them on a Workspace.
+
+    These Tasks are for copying to and from GCS buckets from Pipelines.
+    These Tasks do a similar job to the GCS PipelineResource and are
+    intended as its replacement.
+
   workspaces:
   - name: credentials
     description: A secret with a service account key to use as GOOGLE_APPLICATION_CREDENTIALS.
