@@ -2,7 +2,16 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: helm-upgrade
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tags: helm
+    displayName: "helm upgrade"
 spec:
+  description: >-
+    This Task installs/upgrades a helm chart into your Kubernetes/OpenShift Cluster using Helm.
+
   params:
     - name: CHARTS_DIR
       description: The directory in source that contains the helm chart
