@@ -3,7 +3,20 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: git-cli
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tags: git
+    displayName: "git cli"
 spec:
+  description: >-
+    These Tasks are Git tasks to work with repositories used by other tasks
+    in your Pipeline.
+
+    This task can be used to perform git operations.
+    Command that needs to be run can be passed as a script to the task.
+
   workspaces:
     - name: source
       description: A workspace that contains the fetched git repository.
