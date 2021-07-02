@@ -4,11 +4,12 @@ kind: Task
 metadata:
   name: buildpacks
   labels:
-    app.kubernetes.io/version: "0.3"
+    app.kubernetes.io/version: '0.3'
   annotations:
-    tekton.dev/pipelines.minVersion: "0.17.0"
+    tekton.dev/pipelines.minVersion: '0.17.0'
     tekton.dev/tags: image-build
-    tekton.dev/displayName: "Buildpacks"
+    tekton.dev/deprecated: 'true'
+    tekton.dev/displayName: 'Buildpacks'
 spec:
   description: >-
     The Buildpacks task builds source into a container image and pushes it to a registry,
@@ -28,29 +29,29 @@ spec:
       description: The image on which builds will run (must include lifecycle and compatible buildpacks).
     - name: SOURCE_SUBPATH
       description: A subpath within the `source` input where the source to build is located.
-      default: ""
+      default: ''
     - name: ENV_VARS
       type: array
       description: Environment variables to set during _build-time_.
       default: []
     - name: PROCESS_TYPE
       description: The default process type to set on the image.
-      default: "web"
+      default: 'web'
     - name: RUN_IMAGE
       description: Reference to a run image to use.
-      default: ""
+      default: ''
     - name: CACHE_IMAGE
       description: The name of the persistent app cache image (if no cache workspace is provided).
-      default: ""
+      default: ''
     - name: SKIP_RESTORE
       description: Do not write layer metadata or restore cached layers.
-      default: "false"
+      default: 'false'
     - name: USER_ID
       description: The user ID of the builder image user.
-      default: "1000"
+      default: '1000'
     - name: GROUP_ID
       description: The group ID of the builder image user.
-      default: "1000"
+      default: '1000'
     - name: PLATFORM_DIR
       description: The name of the platform directory.
       default: empty-dir
@@ -62,14 +63,14 @@ spec:
   stepTemplate:
     env:
       - name: CNB_PLATFORM_API
-        value: "0.4"
+        value: '0.4'
 
   steps:
     - name: prepare
       image: docker.io/library/bash:5.1.4@sha256:b208215a4655538be652b2769d82e576bc4d0a2bb132144c060efc5be8c3f5d6
       args:
-        - "--env-vars"
-        - "$(params.ENV_VARS[*])"
+        - '--env-vars'
+        - '$(params.ENV_VARS[*])'
       script: |
         #!/usr/bin/env bash
         set -e
@@ -121,21 +122,21 @@ spec:
     - name: create
       image: $(params.BUILDER_IMAGE)
       imagePullPolicy: Always
-      command: ["/cnb/lifecycle/creator"]
+      command: ['/cnb/lifecycle/creator']
       args:
-        - "-app=$(workspaces.source.path)/$(params.SOURCE_SUBPATH)"
-        - "-cache-dir=$(workspaces.cache.path)"
-        - "-cache-image=$(params.CACHE_IMAGE)"
-        - "-uid=$(params.USER_ID)"
-        - "-gid=$(params.GROUP_ID)"
-        - "-layers=/layers"
-        - "-platform=/platform"
-        - "-report=/layers/report.toml"
-        - "-process-type=$(params.PROCESS_TYPE)"
-        - "-skip-restore=$(params.SKIP_RESTORE)"
-        - "-previous-image=$(params.APP_IMAGE)"
-        - "-run-image=$(params.RUN_IMAGE)"
-        - "$(params.APP_IMAGE)"
+        - '-app=$(workspaces.source.path)/$(params.SOURCE_SUBPATH)'
+        - '-cache-dir=$(workspaces.cache.path)'
+        - '-cache-image=$(params.CACHE_IMAGE)'
+        - '-uid=$(params.USER_ID)'
+        - '-gid=$(params.GROUP_ID)'
+        - '-layers=/layers'
+        - '-platform=/platform'
+        - '-report=/layers/report.toml'
+        - '-process-type=$(params.PROCESS_TYPE)'
+        - '-skip-restore=$(params.SKIP_RESTORE)'
+        - '-previous-image=$(params.APP_IMAGE)'
+        - '-run-image=$(params.RUN_IMAGE)'
+        - '$(params.APP_IMAGE)'
       volumeMounts:
         - name: layers-dir
           mountPath: /layers
