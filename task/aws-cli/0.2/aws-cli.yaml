@@ -8,6 +8,8 @@ metadata:
     tekton.dev/pipelines.minVersion: "0.17.0"
     tekton.dev/tags: cli
     tekton.dev/displayName: "aws cli"
+    tekton.dev/platforms: linux/amd64,linux/s390x
+
 spec:
   description: >-
     This task performs operations on Amazon Web Services resources using aws.
